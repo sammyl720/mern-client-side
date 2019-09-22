@@ -1,31 +1,24 @@
 import React, { useEffect, useState, useContext } from 'react'
 import stringToDecimal from '../../util/pricing/addDecimals'
 import UserContext from '../../context/User/UserContext'
+import LoadinGif from '../../loading.gif'
 import Card from '../layout/Card'
-import GIF from '../../loading.gif'
-import axios from 'axios'
+import FlexBox from '../layout/FlexBox'
+import ProductContext from '../../context/Product/productContext'
+import Btn from '../layout/Button'
 const Products = () => {
   const userContext = useContext(UserContext)
-  const { isAuthenticated } = userContext
-  const [products, setProducts] = useState([])
-  const [loading, setLoading] = useState(true)
+  const productContext = useContext(ProductContext)
+  const { products, getProducts, loading } = productContext
+  const { isAuthenticated, isAdmin } = userContext
   useEffect(() => {
-    if (loading) {
-      axios
-        .get('/products/')
-        .then(result => {
-          setProducts(result.data)
-          setLoading(false)
-        })
-        .catch(err => {
-          console.log(err)
-        })
-    }
-  }, [products, loading])
+    getProducts()
+  }, [])
+
   return (
     <div className='product-list'>
       {loading ? (
-        <img src={GIF} alt='loading' />
+        <img src={LoadinGif} alt='loading' />
       ) : (
         products.map(product => {
           return (
@@ -36,7 +29,11 @@ const Products = () => {
               ) : (
                 ''
               )}
-              <small>${stringToDecimal(product.price)}</small>
+              <FlexBox column>
+                <small>${stringToDecimal(product.price)}</small>
+                {isAdmin && <Btn>Edit</Btn>}
+                {isAuthenticated && <Btn> Add to Basket</Btn>}
+              </FlexBox>
             </Card>
           )
         })

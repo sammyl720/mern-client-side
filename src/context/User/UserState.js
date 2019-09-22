@@ -9,7 +9,8 @@ import {
   SET_ALERT,
   REMOVE_ALERT,
   LOAD_USER,
-  LOGOUT_USER
+  LOGOUT_USER,
+  REGISTER_USER
 } from './Types'
 const UserState = props => {
   const initialState = {
@@ -17,7 +18,8 @@ const UserState = props => {
     isAuthenticated: false,
     token: null,
     alert: null,
-    loading: false
+    loading: false,
+    isAdmin: false
   }
   const [state, dispatch] = useReducer(UserReducer, initialState)
   // load user
@@ -27,6 +29,7 @@ const UserState = props => {
     axios
       .get('/user')
       .then(res => {
+        console.log(res.data)
         dispatch({ type: LOAD_USER, payload: res.data })
       })
       .catch(err => {
@@ -51,7 +54,8 @@ const UserState = props => {
         // api response
         dispatch({ type: LOGIN_USER, payload: res.data })
         // console.log(res.data)
-        // redirect to products page
+        // redirect to user page
+        props.history.push('/user')
       })
       .catch(err => {
         // api error
@@ -62,6 +66,33 @@ const UserState = props => {
         })
       })
   }
+
+  // register user
+  const registerUser = info => {
+    axios
+      .post('/user/register', JSON.stringify(info), {
+        headers: {
+          'Content-type': 'application/json'
+        }
+      })
+      .then(res => {
+        // api response
+        console.log(res)
+        // redirect to login page
+        setLoading({ type: SET_LOADING })
+        dispatch({ type: REGISTER_USER, payload: res.data })
+        props.history.push('/user')
+      })
+      .catch(err => {
+        // api error
+        console.error(err.message)
+        setAlert({
+          message: 'Invalid Credentails',
+          type: 'danger'
+        })
+      })
+  }
+  // set alert
   const setAlert = ({ message, type }) => {
     dispatch({
       type: SET_ALERT,
@@ -85,13 +116,15 @@ const UserState = props => {
       value={{
         user: state.user,
         isAuthenticated: state.isAuthenticated,
+        isAdmin: state.isAdmin,
         token: state.token,
         alert: state.alert,
         setLoading,
         loginUser,
         setAlert,
         loadUser,
-        logoutUser
+        logoutUser,
+        registerUser
       }}
     >
       {props.children}

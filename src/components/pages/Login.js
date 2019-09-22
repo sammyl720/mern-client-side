@@ -33,35 +33,36 @@ const Login = props => {
   }
   if (loading) {
     return <img src={LoadinGif} alt='loading' />
+  } else {
+    return (
+      <Form onSubmit={handleSubmit}>
+        {alert && <p>{alert.message}</p>}
+        <h1>Account Login</h1>
+        <InputGroup credentials={credentials}>
+          <label htmlFor='email'>Email</label>
+          <input
+            type='email'
+            name='email'
+            id='email'
+            value={credentials.email}
+            onChange={onChangeHandler}
+          />
+        </InputGroup>
+        <InputGroup>
+          <label htmlFor='password'>Password</label>
+          <input
+            type='password'
+            name='password'
+            id='password'
+            value={credentials.password}
+            onChange={onChangeHandler}
+            required
+          />
+        </InputGroup>
+        <Submit value='Login' />
+      </Form>
+    )
   }
-  return (
-    <Form onSubmit={handleSubmit}>
-      {alert && <p>{alert.message}</p>}
-      <h1>Account Login</h1>
-      <InputGroup credentials={credentials}>
-        <label htmlFor='email'>Email</label>
-        <input
-          type='email'
-          name='email'
-          id='email'
-          value={credentials.email}
-          onChange={onChangeHandler}
-        />
-      </InputGroup>
-      <InputGroup>
-        <label htmlFor='password'>Password</label>
-        <input
-          type='password'
-          name='password'
-          id='password'
-          value={credentials.password}
-          onChange={onChangeHandler}
-          required
-        />
-      </InputGroup>
-      <Submit value='Login' />
-    </Form>
-  )
 }
 
 export default Login

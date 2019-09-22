@@ -1,12 +1,13 @@
 import React, { useState, useContext, useEffect } from 'react'
 import Form from '../layout/Form'
-import axios from 'axios'
+import LoadinGif from '../../loading.gif'
+
 import InputGroup from '../layout/InputGroup'
 import Submit from '../layout/Submit'
 import UserContext from '../../context/User/UserContext'
 const Register = props => {
   const userContext = useContext(UserContext)
-  const { isAuthenticated } = userContext
+  const { isAuthenticated, registerUser, loading } = userContext
   useEffect(() => {
     if (isAuthenticated) {
       props.history.push('/')
@@ -27,25 +28,10 @@ const Register = props => {
   const onSubmit = e => {
     e.preventDefault()
 
-    // register user
-    axios
-      .post('/user/register', JSON.stringify(info), {
-        headers: {
-          'Content-type': 'application/json'
-        }
-      })
-      .then(res => {
-        // api response
-        console.log(res)
-        // redirect to login page
-        props.history.push('/login')
-      })
-      .catch(err => {
-        // api error
-        console.error(err)
-      })
-    //display error if any
-    // redirect
+    registerUser(info)
+  }
+  if (loading) {
+    return <img src={LoadinGif} alt='loading' />
   }
   return (
     <Form onSubmit={onSubmit}>

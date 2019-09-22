@@ -9,31 +9,38 @@ import Login from './components/pages/Login'
 import Logout from './components/pages/Logout'
 import Register from './components/pages/Register'
 import Authenticated from './components/pages/authenticated/Products'
+import ProductState from './context/Product/ProductState'
 
 import UserState from './context/User/UserState'
 
 function App() {
   return (
-    <UserState>
-      <div className='App'>
-        <Router>
-          <Navbar />
-          <Switch>
-            <Route exact path='/' component={Home} />
-            <Route exact path='/about' component={About} />
-            <Route exact path='/pricing' component={Products} />
-            <Route exact path='/login' render={props => <Login {...props} />} />
-            <Route
-              exact
-              path='/register'
-              render={props => <Register {...props} />}
-            />
-            <Route path='/user' component={Authenticated} />
-            <Route path='/logout' component={Logout} />
-          </Switch>
-        </Router>
-      </div>
-    </UserState>
+    <Router>
+      <UserState>
+        <div className='App'>
+          <ProductState>
+            <Navbar />
+            <Switch>
+              <Route exact path='/' component={Home} />
+              <Route exact path='/about' component={About} />
+              <Route exact path='/pricing' component={Products} />
+              <Route
+                exact
+                path='/login'
+                render={props => <Login {...props} />}
+              />
+              <Route
+                exact
+                path='/register'
+                render={props => <Register {...props} />}
+              />
+              <Route path='/user' component={Authenticated} />
+              <Route path='/logout' component={Logout} />
+            </Switch>
+          </ProductState>
+        </div>
+      </UserState>
+    </Router>
   )
 }
 

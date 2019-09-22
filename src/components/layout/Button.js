@@ -11,7 +11,7 @@ const Button = props => {
     border: none;
     outline: none;
     box-shadow: 1px 1px 10px -8px black;
-    margin: auto;
+    margin: 5px;
     text-align: center;
     & :active {
       box-shadow: inset 1px 1px 10px -8px black;

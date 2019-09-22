@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, Fragment } from 'react'
+import React, { useContext, Fragment } from 'react'
 import { Link } from 'react-router-dom'
 import UserContext from '../../context/User/UserContext'
 import styled from 'styled-components'

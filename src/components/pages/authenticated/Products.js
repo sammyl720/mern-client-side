@@ -3,7 +3,7 @@ import UserContext from '../../../context/User/UserContext'
 import GIF from '../../../loading.gif'
 const Products = props => {
   const userContext = useContext(UserContext)
-  const { isAuthenticated, user, loadUser, setLoading, loading } = userContext
+  const { user, loadUser, setLoading, loading } = userContext
   useEffect(() => {
     if (!user) {
       setLoading()
@@ -16,7 +16,7 @@ const Products = props => {
   } else {
     return (
       <div>
-        <h3>Hi,{user.user.name}</h3>
+        <h3>Hi,{user.name}</h3>
         This is a protected route
       </div>
     )

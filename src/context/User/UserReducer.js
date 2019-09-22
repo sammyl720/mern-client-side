@@ -4,7 +4,8 @@ import {
   SET_ALERT,
   REMOVE_ALERT,
   LOAD_USER,
-  LOGOUT_USER
+  LOGOUT_USER,
+  REGISTER_USER
 } from './Types'
 import setAuthToken from '../../util/setAuthToken'
 export default (state, action) => {
@@ -24,7 +25,17 @@ export default (state, action) => {
         ...state,
         isAuthenticated: true,
         token: localStorage.getItem('token'),
-        user: { ...action.payload },
+        user: { ...action.payload.user },
+        loading: false,
+        isAdmin: action.payload.user.isAdmin
+      }
+    case REGISTER_USER:
+      localStorage.setItem('token', action.payload.token)
+      setAuthToken(action.payload.token)
+      return {
+        ...state,
+        token: localStorage.getItem('token'),
+        isAuthenticated: true,
         loading: false
       }
     case SET_LOADING:
