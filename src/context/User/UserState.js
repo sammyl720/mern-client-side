@@ -24,16 +24,17 @@ const UserState = props => {
   const [state, dispatch] = useReducer(UserReducer, initialState)
   // load user
   const loadUser = () => {
-    setLoading()
     setAuthToken(localStorage.getItem('token'))
     axios
       .get('/user')
       .then(res => {
         console.log(res.data)
         dispatch({ type: LOAD_USER, payload: res.data })
+        props.history.push('/user')
       })
       .catch(err => {
         console.log('Could not load user', err)
+        setAlert({ type: 'danger', message: 'Could not load user' })
       })
   }
   // set loading to true
@@ -55,7 +56,7 @@ const UserState = props => {
         dispatch({ type: LOGIN_USER, payload: res.data })
         // console.log(res.data)
         // redirect to user page
-        props.history.push('/user')
+        loadUser()
       })
       .catch(err => {
         // api error

@@ -1,4 +1,4 @@
-import React, { useContext, Fragment } from 'react'
+import React, { useContext, Fragment, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import UserContext from '../../context/User/UserContext'
 import styled from 'styled-components'
@@ -12,6 +12,9 @@ const Navlist = styled.nav`
   margin: auto;
   align-items: center;
   justify-content: space-evenly;
+  @media (max-width: 600px) {
+    width: 100%;
+  }
   & > a {
     text-decoration: none;
     color: #476c9b;
@@ -25,11 +28,24 @@ const Navlist = styled.nav`
   ${props => (props.side === 'right' ? 'width:30%;' : 'width:50%;')}
   ${props => (!props.side ? 'width:80%;' : '')}
 `
-const Navbar = () => {
+const Navbar = props => {
   const userContext = useContext(UserContext)
-  const { isAuthenticated } = userContext
+  const { isAuthenticated, isAdmin, loadUser } = userContext
+
+  useEffect(() => {
+    loadUser()
+    // eslint-disable-next-line
+  }, [])
   const AuthLinks = props => {
     if (isAuthenticated) {
+      if (isAdmin) {
+        return (
+          <Fragment>
+            <Link to='/user'>Admin</Link>
+            <Link to='/logout'>Logout</Link>
+          </Fragment>
+        )
+      }
       return <Link to='/logout'>Logout</Link>
     } else {
       return (

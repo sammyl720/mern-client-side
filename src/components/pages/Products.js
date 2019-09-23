@@ -1,9 +1,9 @@
 import React from 'react'
 import Product from '../Products/Products'
-const Products = () => {
+const Products = props => {
   return (
     <div>
-      <Product />
+      <Product {...props} />
     </div>
   )
 }

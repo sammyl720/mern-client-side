@@ -14,6 +14,9 @@ const LongCard = props => {
     margin: 5px auto;
     justify-content: space-evenly;
     align-items: center;
+    @media (max-width: 600px) {
+      width: 100%;
+    }
   `
   return <LongCard>{props.children}</LongCard>
 }

@@ -9,7 +9,7 @@ const Login = props => {
   const { isAuthenticated, loginUser, alert, loading, setLoading } = userContext
   useEffect(() => {
     if (isAuthenticated) {
-      props.history.push('/')
+      props.history.push('/user')
     }
     // eslint-disable-next-line
   }, [isAuthenticated])

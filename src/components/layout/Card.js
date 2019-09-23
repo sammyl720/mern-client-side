@@ -25,6 +25,9 @@ const Card = props => {
       align-items: center;
       justify-content: center;
     }
+    @media (max-width: 600px) {
+      width: 100%;
+    }
   `
   return (
     <animated.div style={effects}>
